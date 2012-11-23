@@ -71,6 +71,17 @@ class App.Misc.AnchorBinder
   bindInternalLink: (link, locus)->
     link.on 'click', (event)=>
       event.preventDefault()
+
+      if @listStack.length > 0
+        last = @listStack[@listStack.length - 1]
+        matches = link[0].href.match /^.*#(.+)$/
+        if matches[1]
+          last = @listStack.pop()
+          @reader.moveTo last.position
+          if @listStack.length == 0
+            $('a.menu.goback').hide()
+          return
+
       currentLocus = @reader.getPlace().getLocus()
       storedPosition = position: currentLocus, srcid: link[0].id
       @listStack.push storedPosition
