@@ -44,6 +44,11 @@ class App.Misc.AnchorBinder
             @bindExternalLink link
           @markLinkAsProcessed link
 
+    goback = $('a.menu.goback')
+    if @linkIsNotAlreadyProcessed goback
+      @bindGoBackLink goback
+      @markLinkAsProcessed goback
+
   locusOfChapter: (link)->
     @reader.getBook().locusOfChapter(link) if link
 
@@ -54,11 +59,21 @@ class App.Misc.AnchorBinder
     # $(link).css('color', 'green')
     link[0].processed = true
 
+  bindGoBackLink: (link) ->
+    link.on 'click', (event) =>
+      event.preventDefault()
+      if @listStack.length > 0
+        locus = @listStack.pop()
+        @reader.moveTo locus
+      if @listStack.length == 0
+        $('a.menu.goback').hide()
+
   bindInternalLink: (link, locus)->
     link.on 'click', (event)=>
       event.preventDefault()
       currentLocus = @reader.getPlace().getLocus()
       @listStack.push currentLocus
+      $('a.menu.goback').show()
 
       @reader.moveTo locus
 
