@@ -25,9 +25,7 @@
 # internal links and bind a Monocle moveTo to the click event.
 
 class App.Misc.AnchorBinder
-  constructor: (@reader, @view) ->
-
-  setGoBack: (@anchorGoBack) ->
+  constructor: (@reader, @view, @anchorGoBack) ->
 
   process: ()=>
     _.each @view.contentFrames(), (contentFrame)=>

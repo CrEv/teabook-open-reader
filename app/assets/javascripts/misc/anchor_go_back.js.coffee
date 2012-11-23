@@ -22,7 +22,7 @@
 # The AnchorGoBack allow to go to the previous reading position
 # after click a link, as a footnote.
 class App.Misc.AnchorGoBack
-  constructor: (@reader, @anchorBinder, @goBackLink) ->
+  constructor: (@reader, @goBackLink) ->
     @linkStack = []
     @goBackLink.hide()
 
