@@ -26,6 +26,7 @@
 
 class App.Misc.AnchorBinder
   constructor: (@reader, @view) ->
+    @listStack = []
 
   process: ()=>
     _.each @view.contentFrames(), (contentFrame)=>
@@ -56,6 +57,9 @@ class App.Misc.AnchorBinder
   bindInternalLink: (link, locus)->
     link.on 'click', (event)=>
       event.preventDefault()
+      currentLocus = @reader.getPlace().getLocus()
+      @listStack.push currentLocus
+
       @reader.moveTo locus
 
   bindExternalLink: (link)->
