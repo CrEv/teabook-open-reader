@@ -78,7 +78,7 @@ class App.Misc.AnchorBinder
       if @listStack.length > 0
         last = @listStack[@listStack.length - 1]
         matches = link[0].href.match /^.*#(.+)$/
-        if matches[1]
+        if matches[1] == last.srcid
           @goBackLink()
           return
 
