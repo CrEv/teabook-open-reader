@@ -59,10 +59,13 @@ class App.Misc.AnchorBinder
     link.on 'click', (event)=>
       event.preventDefault()
       if @anchorGoBack.can(link[0].href)
+        # go back using the "real" last position
+        # and not the position of the anchor
         @anchorGoBack.go()
-        return
-      @anchorGoBack.followLinkFrom link[0].id
-      @reader.moveTo locus
+      else
+        # just follow the link
+        @anchorGoBack.followLinkFrom link[0].id
+        @reader.moveTo locus
 
   bindExternalLink: (link)->
     link.on 'click', (event)->
