@@ -63,8 +63,8 @@ class App.Misc.AnchorBinder
     link.on 'click', (event) =>
       event.preventDefault()
       if @listStack.length > 0
-        locus = @listStack.pop()
-        @reader.moveTo locus
+        last = @listStack.pop()
+        @reader.moveTo last.position
       if @listStack.length == 0
         $('a.menu.goback').hide()
 
@@ -72,7 +72,9 @@ class App.Misc.AnchorBinder
     link.on 'click', (event)=>
       event.preventDefault()
       currentLocus = @reader.getPlace().getLocus()
-      @listStack.push currentLocus
+      storedPosition = position: currentLocus, srcid: link[0].id
+      @listStack.push storedPosition
+
       $('a.menu.goback').show()
 
       @reader.moveTo locus
