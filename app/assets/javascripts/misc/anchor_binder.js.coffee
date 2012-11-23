@@ -62,11 +62,14 @@ class App.Misc.AnchorBinder
   bindGoBackLink: (link) ->
     link.on 'click', (event) =>
       event.preventDefault()
-      if @listStack.length > 0
-        last = @listStack.pop()
-        @reader.moveTo last.position
-      if @listStack.length == 0
-        $('a.menu.goback').hide()
+      @goBackLink()
+
+  goBackLink: ->
+    if @listStack.length > 0
+      last = @listStack.pop()
+      @reader.moveTo last.position
+    if @listStack.length == 0
+      $('a.menu.goback').hide()
 
   bindInternalLink: (link, locus)->
     link.on 'click', (event)=>
@@ -76,10 +79,7 @@ class App.Misc.AnchorBinder
         last = @listStack[@listStack.length - 1]
         matches = link[0].href.match /^.*#(.+)$/
         if matches[1]
-          last = @listStack.pop()
-          @reader.moveTo last.position
-          if @listStack.length == 0
-            $('a.menu.goback').hide()
+          @goBackLink()
           return
 
       currentLocus = @reader.getPlace().getLocus()
