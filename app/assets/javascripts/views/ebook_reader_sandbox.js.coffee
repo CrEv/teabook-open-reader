@@ -28,6 +28,7 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     'click .details':     'toggleDetails'
     'click .settings':    'toggleSettings'
     'click .library':     'backToLibrary'
+    'click .goback':      'goBackLink'
     'mouseover #reader':  'showMenu'
     'keydown':            'keydown'
 
@@ -108,6 +109,9 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     @anchorBinder = new App.Misc.AnchorBinder(@reader, @)
     reader.listen 'monocle:loaded', @anchorBinder.process
     reader.listen 'monocle:componentchange', @anchorBinder.process
+    # Go back link
+    @anchorGoBack = new App.Misc.AnchorGoBack(@reader, @anchorBinder, $('a.menu.goback'))
+    @anchorBinder.setGoBack @anchorGoBack
 
     # Bind iPad click to show Menus
     reader.listen 'monocle:loaded', @bindEventsInIframes
@@ -257,3 +261,7 @@ class App.Views.EbookReaderSandbox extends Backbone.View
     App.messages.send
       type: 'navigate'
       content: '/ebook/epubs'
+
+  goBackLink: (e) =>
+    e.preventDefault()
+    @anchorGoBack.go()
